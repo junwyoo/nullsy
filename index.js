@@ -65,5 +65,3 @@ var isValidChain = function (testObj, keys) {
 module.exports = {
     isUndefined, isNull, isNullsy, isValid, isValidChain
 };
-
-module.exports.default = isValidChain;

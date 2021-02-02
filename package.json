@@ -1,6 +1,6 @@
 {
   "name": "nullsy",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Tool for testing null and undefined.",
   "main": "index.js",
   "scripts": {
