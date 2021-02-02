@@ -1,17 +1,38 @@
 'use strict';
 
-var isUndefined = function(o) {
-    return typeof o === 'undefined';
+/**
+ * Return if and only if the provided value is undefined.
+ *
+ * @param {any} value - Value to be tested if undefined.
+ */
+var isUndefined = function(value) {
+    return typeof value === 'undefined';
 };
 
-var isNull = function(n) {
-    return typeof n === 'object' && !n;
+/**
+ * Return if and only if the provided value is null.
+ *
+ * @param {any} value - Value to be tested if null.
+ */
+var isNull = function(value) {
+    return typeof value === 'object' && !value;
 };
 
+/**
+ * Return if the provided value is either null or undefined.
+ * Returns false if: 0, false, NaN, {}, ""
+ *
+ * @param {any} value - Value to be tested if either null or undefined.
+ */
 var isNullsy = function(value) {
     return isUndefined(value) || isNull(value);
 };
 
+/**
+ * Return if the provided value is neither null nor undefined.
+ *
+ * @param {any} value - Value to be tested if neither null nor undefined.
+ */
 var isValid = function(value) {
     return !isNullsy(value);
 }
@@ -46,6 +67,3 @@ module.exports = {
 };
 
 module.exports.default = isValidChain;
-module.exports.printMsg = function() {
-    console.log('Message from Nullsy.js!');
-}
