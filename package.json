@@ -1,7 +1,7 @@
 {
   "name": "nullsy",
-  "version": "1.0.1",
-  "description": "Tool for testing null and undefined.",
+  "version": "1.0.2",
+  "description": "Tools for testing against null and undefined values.",
   "main": "index.js",
   "scripts": {
     "test": "node tests/index-test.js"
