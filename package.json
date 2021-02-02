@@ -1,0 +1,11 @@
+{
+  "name": "nullsy.js",
+  "version": "0.1.1",
+  "description": "Tool for testing null and undefined.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Junwhan Yoo <junwyoo@hotmail.com>",
+  "license": "ISC"
+}
