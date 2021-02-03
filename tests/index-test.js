@@ -1,8 +1,6 @@
 var assert = require('assert');
 var defines = require('../src/defines');
 var {isUndefined, isNull, isNullsy, isValidChain, isFalsey, isEmptyObject} = require('../index');
-const { falseyValue } = require('../src/defines');
-const { prototype } = require('events');
 
 // This test should alway pass unless there is a major change in js.
 function nativeChecks() {
@@ -143,7 +141,7 @@ function isFalseyTestCases() {
     assert.strictEqual(isFalsey({}), false);
     assert.strictEqual(isFalsey({some: 'object'}), false);
     assert.strictEqual(isFalsey([]), false);
-    assert.strictEqual(isFalsey(falseyValue), false);
+    assert.strictEqual(isFalsey(defines.falseyValue), false);
     assert.strictEqual(isFalsey('string'), false);
     assert.strictEqual(isFalsey(() => {}), false);
 }
