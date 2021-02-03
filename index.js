@@ -1,8 +1,14 @@
 'use strict';
 
-var {isUndefined, isNull, isNullsy, isValid} = require('./src/basics');
+var {isUndefined, isNull, isNullsy, isValid, isFalsey, isEmptyObject} = require('./src/basics');
 var isValidChain = require('./src/isValidChain');
 
 module.exports = {
-    isUndefined, isNull, isNullsy, isValid, isValidChain
+    isUndefined,
+    isNull,
+    isNullsy,
+    isValid,
+    isValidChain,
+    isFalsey,
+    isEmptyObject
 };

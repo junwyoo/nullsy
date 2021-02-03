@@ -1,5 +1,8 @@
 var assert = require('assert');
-var {isUndefined, isNull, isNullsy, isValidChain} = require('../index');
+var defines = require('../src/defines');
+var {isUndefined, isNull, isNullsy, isValidChain, isFalsey, isEmptyObject} = require('../index');
+const { falseyValue } = require('../src/defines');
+const { prototype } = require('events');
 
 // This test should alway pass unless there is a major change in js.
 function nativeChecks() {
@@ -123,8 +126,73 @@ function isValidChainTestCases() {
     assert.strictEqual(isValidChain(o, 'path.side.myKey'), false);
 }
 
+function isFalseyTestCases() {
+    assert.strictEqual(isFalsey(), true);
+    assert.strictEqual(isFalsey(null), true);
+    assert.strictEqual(isFalsey(undefined), true);
+    assert.strictEqual(isFalsey((() => {})()), true);
+
+    // Tests [0, NaN, false, ""]
+    defines.falseyValue.forEach(falsey => {
+        assert.strictEqual(isFalsey(falsey), true);
+    });
+
+    assert.strictEqual(isFalsey(true), false);
+    assert.strictEqual(isFalsey(1), false);
+    assert.strictEqual(isFalsey(-1), false);
+    assert.strictEqual(isFalsey({}), false);
+    assert.strictEqual(isFalsey({some: 'object'}), false);
+    assert.strictEqual(isFalsey([]), false);
+    assert.strictEqual(isFalsey(falseyValue), false);
+    assert.strictEqual(isFalsey('string'), false);
+    assert.strictEqual(isFalsey(() => {}), false);
+}
+
+function isEmptyObjectTestCases() {
+    assert.strictEqual(isEmptyObject({}), true);
+
+    assert.strictEqual(isEmptyObject([]), false);
+    assert.strictEqual(isEmptyObject(), false);
+    assert.strictEqual(isEmptyObject(0), false);
+    assert.strictEqual(isEmptyObject(''), false);
+    assert.strictEqual(isEmptyObject(), false);
+    assert.strictEqual(isEmptyObject(undefined), false);
+    assert.strictEqual(isEmptyObject(null), false);
+
+    var o = {some: 'obj'};
+    assert.strictEqual(isEmptyObject(o), false);
+
+    delete o.some;
+    assert.strictEqual(isEmptyObject(o), true);
+
+    o[Symbol()] = 3;
+    assert.strictEqual(isEmptyObject(o), false);
+
+    o = {};
+    assert.strictEqual(isEmptyObject({}), true);
+
+    Object.defineProperties(o, {a: {enumerable: false, value: 3}});
+    assert.strictEqual(isEmptyObject(o), false);
+
+    // Prototype check
+    function ParentClass() {}
+    ParentClass.prototype.inheritedMethod = function() {};
+
+    function ChildClass() {}
+    ChildClass.prototype = new ParentClass;
+
+    // This object does not have a property; only prototypes.
+    var child = new ChildClass();
+
+    assert.strictEqual(isEmptyObject(child), false);
+    assert.strictEqual(isEmptyObject(Object.getPrototypeOf(child)), false);
+    assert.strictEqual(isEmptyObject(Object.getPrototypeOf({})), false);
+}
+
 nativeChecks();
 isNullTestCases();
 isUndefinedTestCases();
 isNullsyTestCases();
 isValidChainTestCases();
+isFalseyTestCases();
+isEmptyObjectTestCases();
