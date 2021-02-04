@@ -25,4 +25,6 @@ var isValidChain = function (testObj, keys) {
     return isValidChain(testObj[firstElement], keysArray.slice(1).join('.'));
 }
 
+// TODO: Add non-recursive implementation.
+
 module.exports = isValidChain;

@@ -1,4 +1,4 @@
-# nullsy
+# nullsy.js
 ## Overview
 This package includes every tool you need for testing against null or undefined variable.
 
@@ -32,7 +32,7 @@ but I found out that this approach is rather long.
 
 Using `isValidChain` in this package, you can simply do
 ```javascript
-if (isValidChain(response, 'response.go.deep.into.path')) {
+if (isValidChain(response, 'go.deep.into.path')) {
     // ...do even more amazier stuff
 }
 ```
