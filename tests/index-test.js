@@ -122,6 +122,30 @@ function isValidChainTestCases() {
     assert.strictEqual(isValidChain(o, 'path.to.side'), false);
     assert.strictEqual(isValidChain(o, 'path.to.track'), false);
     assert.strictEqual(isValidChain(o, 'path.side.myKey'), false);
+
+    var exceptions = {
+        path: {
+            to: {
+                validFalse: false,
+                validNull: null,
+                validUndefined: undefined
+            }
+        }
+    }
+    // The value of the path IS false
+    // o.path.to.evenMore.validFalse = false
+    assert.strictEqual(isValidChain(exceptions, 'path.to.validFalse'), true);
+    assert.strictEqual(isValidChain(exceptions, 'path.to.validFalse.not'), false);
+
+    // The value of the path is null
+    // o.path.to.evenMore.validNull = null
+    assert.strictEqual(isValidChain(exceptions, 'path.to.validNull'), true);
+    assert.strictEqual(isValidChain(exceptions, 'path.to.validNull.not'), false);
+
+    // The value of the path is undefined
+    // o.path.to.evenMore.validUndefined = undefined
+    assert.strictEqual(isValidChain(exceptions, 'path.to.validUndefined'), false);
+    assert.strictEqual(isValidChain(exceptions, 'path.to.validUndefined.not'), false);
 }
 
 function isFalseyTestCases() {

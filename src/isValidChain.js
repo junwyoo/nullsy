@@ -1,4 +1,4 @@
-var {isNullsy} = require('./basics');
+var {isNullsy, isUndefined} = require('./basics');
 
 /**
  * Accepts object and return whether the key chain is valid.
@@ -7,24 +7,31 @@ var {isNullsy} = require('./basics');
  * @param {string} keys - All the keys needed to get to the desired key, joined by dot. (example: "path.to.key")
  */
 var isValidChain = function (testObj, keys) {
-    if ((typeof keys !== 'string') || (typeof testObj !== 'object') || isNullsy(testObj)) {
+    if (typeof keys !== 'string' || typeof testObj !== 'object' || isNullsy(testObj)) {
         return false;
     }
-
     var keysArray = keys.split('.');
-    var firstElement = keysArray[0];
+    var redFlag = false;
+    var lastValue = keysArray.reduce((accObj, cur) => {
+        if (redFlag) {
+            return;
+        }
 
-    if (isNullsy(firstElement) || isNullsy(testObj[firstElement])) {
+        if (typeof accObj[cur] !== 'object' || isNullsy(accObj[cur])) {
+            redFlag = true;
+            return accObj[cur];
+        }
+
+        return accObj[cur];
+    }, testObj);
+
+    // If encountered nullsy value and it was not the last value. (Or undefined. See README.md)
+    if (redFlag && isUndefined(lastValue)) {
         return false;
     }
 
-    if (keysArray.length === 1) {
-        return true;
-    }
-
-    return isValidChain(testObj[firstElement], keysArray.slice(1).join('.'));
+    // Path is valid and the last value is anything but "undefined".
+    return true;
 }
-
-// TODO: Add non-recursive implementation.
 
 module.exports = isValidChain;
