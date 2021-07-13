@@ -1,6 +1,6 @@
 var assert = require('assert');
 var defines = require('../src/defines');
-var {isUndefined, isNull, isNullsy, isValidChain, isFalsey, isEmptyObject, isNullsyAny, isNullsyAll} = require('../index');
+var {isUndefined, isNull, isNullsy, isValidChain, isFalsey, isEmptyObject, isNullsyAny, isNullsyAll, isTrue} = require('../index');
 
 // This test should alway pass unless there is a major change in js.
 function nativeChecks() {
@@ -235,6 +235,17 @@ function recursivesTestCases() {
     assert.strictEqual(isNullsyAll(true, 'not null'), false);
 }
 
+function combinedTestCases() {
+    // isTrue
+    assert.strictEqual(isTrue(true), true);
+    assert.strictEqual(isTrue(false), false);
+    assert.strictEqual(isTrue(null), false);
+    assert.strictEqual(isTrue(undefined), false);
+    defines.falseyValue.forEach(falsey => {
+        assert.strictEqual(isTrue(falsey), false);
+    });
+}
+
 nativeChecks();
 isNullTestCases();
 isUndefinedTestCases();
@@ -242,4 +253,5 @@ isNullsyTestCases();
 isValidChainTestCases();
 isFalseyTestCases();
 isEmptyObjectTestCases();
-recursivesTestCases()
+recursivesTestCases();
+combinedTestCases();

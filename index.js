@@ -3,6 +3,7 @@
 var {isUndefined, isNull, isNullsy, isValid, isFalsey, isEmptyObject} = require('./src/basics');
 var isValidChain = require('./src/isValidChain');
 var {isNullsyAny, isNullsyAll} = require('./src/recursives');
+var {isTrue} = require('./src/combined');
 
 module.exports = {
     isUndefined,
@@ -13,5 +14,6 @@ module.exports = {
     isFalsey,
     isEmptyObject,
     isNullsyAny,
-    isNullsyAll
+    isNullsyAll,
+    isTrue
 };
