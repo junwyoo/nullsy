@@ -1,6 +1,6 @@
 var assert = require('assert');
 var defines = require('../src/defines');
-var {isUndefined, isNull, isNullsy, isValidChain, isFalsey, isEmptyObject} = require('../index');
+var {isUndefined, isNull, isNullsy, isValidChain, isFalsey, isEmptyObject, isNullsyAny, isNullsyAll} = require('../index');
 
 // This test should alway pass unless there is a major change in js.
 function nativeChecks() {
@@ -211,6 +211,30 @@ function isEmptyObjectTestCases() {
     assert.strictEqual(isEmptyObject(Object.getPrototypeOf({})), false);
 }
 
+function recursivesTestCases() {
+    // isNullsyAny
+    assert.strictEqual(isNullsyAny(undefined), true);
+    assert.strictEqual(isNullsyAny(null), true);
+    assert.strictEqual(isNullsyAny(true), false);
+    assert.strictEqual(isNullsyAny(false), false);
+
+    assert.strictEqual(isNullsyAll(undefined, null, null, undefined), true);
+    assert.strictEqual(isNullsyAny(true, null, null, undefined), true);
+    assert.strictEqual(isNullsyAny(null, null, undefined, true), true);
+    assert.strictEqual(isNullsyAny(true, 'not null'), false);
+
+    // isNullsyAll
+    assert.strictEqual(isNullsyAll(undefined), true);
+    assert.strictEqual(isNullsyAll(null), true);
+    assert.strictEqual(isNullsyAll(true), false);
+    assert.strictEqual(isNullsyAll(false), false);
+
+    assert.strictEqual(isNullsyAll(undefined, null, null, undefined), true);
+    assert.strictEqual(isNullsyAll(true, null, null, undefined), false);
+    assert.strictEqual(isNullsyAll(null, null, undefined, true), false);
+    assert.strictEqual(isNullsyAll(true, 'not null'), false);
+}
+
 nativeChecks();
 isNullTestCases();
 isUndefinedTestCases();
@@ -218,3 +242,4 @@ isNullsyTestCases();
 isValidChainTestCases();
 isFalseyTestCases();
 isEmptyObjectTestCases();
+recursivesTestCases()
